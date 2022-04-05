@@ -20,12 +20,18 @@
             {{ $title }}
         </x-slot>
 
-        <p class="text-sm text-gray-600">
+        <p class="text-sm">
             {{ $content }}
         </p>
 
         <div class="mt-4" x-data="{}" x-on:confirming-password.window="setTimeout(() => $refs.confirmable_password.focus(), 250)">
-            <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-3/4"
+            <input @class([
+                "block w-full transition duration-75 rounded-lg shadow-sm focus:border-primary-600 focus:ring-1 focus:ring-inset focus:ring-primary-600 disabled:opacity-70",
+                'dark:bg-gray-700 dark:text-white' => config('forms.dark_mode'),
+                'border-gray-300' => ! $errors->has('confirmable_password'),
+                'dark:border-gray-600' => (! $errors->has('confirmable_password')) && config('forms.dark_mode'),
+                'border-danger-600 ring-danger-600' => $errors->has('confirmable_password'),
+                   ])
                    type="password"
                    placeholder="{{ __('filament-2fa::two-factor.field.password') }}"
                    x-ref="confirmable_password"
@@ -33,7 +39,7 @@
                    wire:keydown.enter="confirmPassword" />
 
             @error('confirmable_password')
-            <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+            <p class="text-sm text-danger-600 filament-forms-field-wrapper-error-message ">{{ $message }}</p>
             @enderror
         </div>
 

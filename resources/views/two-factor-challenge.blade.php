@@ -1,10 +1,10 @@
 <x-filament-2fa::auth-card action="verify">
     <div x-data="{ recovery: false }" class="grid gap-6">
-        <div class="text-sm text-gray-600" x-show="! recovery">
+        <div class="text-sm" x-show="! recovery">
             {{ __('filament-2fa::two-factor.message.confirm_access_with_authentication_code') }}
         </div>
 
-        <div class="text-sm text-gray-600" x-show="recovery">
+        <div class="text-sm" x-show="recovery">
             {{ __('filament-2fa::two-factor.message.confirm_access_with_recovery_code') }}
         </div>
 
@@ -19,8 +19,8 @@
 
         <div class="flex items-center gap-6 justify-end mt-4">
             <x-filament::button type="button" color="secondary" class="text-sm "
-                    x-show="! recovery"
-                    x-on:click="
+                                x-show="! recovery"
+                                x-on:click="
                                     recovery = true;
                                     $nextTick(() => { $refs.recovery_code.focus() })
                                 ">
@@ -28,8 +28,8 @@
             </x-filament::button>
 
             <x-filament::button type="button"  color="secondary" class="text-sm"
-                    x-show="recovery"
-                    x-on:click="
+                                x-show="recovery"
+                                x-on:click="
                                     recovery = false;
                                     $nextTick(() => { $refs.code.focus() })
                                 ">

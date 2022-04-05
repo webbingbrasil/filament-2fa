@@ -1,5 +1,5 @@
 <div>
-    <h3 class="text-lg font-medium text-gray-900">
+    <h3 class="text-lg font-medium">
         @if ($this->enabled)
             @if (!$this->confirmed)
                 {{ __('filament-2fa::two-factor.status.enabling') }}
@@ -11,7 +11,7 @@
         @endif
     </h3>
 
-    <div class="mt-2 max-w-xl text-sm text-gray-600">
+    <div class="mt-2 max-w-xl text-sm">
         <p>
             {{ __('filament-2fa::two-factor.message.information') }}
         </p>
@@ -19,7 +19,7 @@
 
     @if ($this->enabled)
         @if (!$this->confirmed)
-            <div class="mt-2 max-w-xl text-sm text-gray-600">
+            <div class="mt-2 max-w-xl text-sm">
                 <p class="font-semibold">
                     {{ __('filament-2fa::two-factor.message.finish_enabling') }}
                 </p>
@@ -29,7 +29,7 @@
                 {!! $this->user->twoFactorQrCodeSvg() !!}
             </div>
 
-            <div class="mt-2 max-w-xl text-sm text-gray-600">
+            <div class="mt-2 max-w-xl text-sm">
                 <p class="font-semibold">
                     {{ __('filament-2fa::two-factor.field.setup_key') }}: {{ decrypt($this->user->two_factor_secret) }}
                 </p>
@@ -41,13 +41,13 @@
         @endif
 
         @if ($showingRecoveryCodes)
-            <div class="mt-2 max-w-xl text-sm text-gray-600">
+            <div class="mt-2 max-w-xl text-sm">
                 <p class="font-semibold">
                     {{ __('filament-2fa::two-factor.message.store_recovery_codes') }}
                 </p>
             </div>
 
-            <div class="grid gap-1 max-w-xl mt-2 px-4 py-4 font-mono text-sm bg-gray-100 rounded-lg">
+            <div class="grid gap-1 max-w-xl mt-2 px-4 py-4 font-mono text-sm rounded-lg">
                 @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
                     <div>{{ $code }}</div>
                 @endforeach
