@@ -4,7 +4,7 @@ A Two Factor Authentication plugin for Filament
 
 ## Installation
 
-1. Install the package via composer
+1. Install the package via composer (requires filament >= 2.10.40)
 ```bash
 composer require webbingbrasil/filament-2fa
 ```

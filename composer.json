@@ -19,7 +19,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "spatie/laravel-package-tools": "^1.9.2",
-        "filament/filament": "^2.0",
+        "filament/filament": "^2.10.40",
         "bacon/bacon-qr-code": "^2.0",
         "pragmarx/google2fa": "^7.0|^8.0"
     },
