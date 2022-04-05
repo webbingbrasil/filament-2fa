@@ -58,7 +58,7 @@ trait TwoFactorAuthenticatable
     {
         $svg = (new Writer(
             new ImageRenderer(
-                new RendererStyle(192, 0, null, null, Fill::uniformColor(new Rgb(255, 255, 255), new Rgb(45, 55, 72))),
+                new RendererStyle(192, 1, null, null, Fill::uniformColor(new Rgb(255, 255, 255), new Rgb(45, 55, 72))),
                 new SvgImageBackEnd
             )
         ))->writeString($this->twoFactorQrCodeUrl());
