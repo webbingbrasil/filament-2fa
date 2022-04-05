@@ -4,11 +4,12 @@ A Two Factor Authentication plugin for Filament
 
 ## Installation
 
+1. Install the package via composer
 ```bash
 composer require webbingbrasil/filament-2fa
 ```
 
-Publish assets and run migrations
+2. Publish assets and run migrations
 
 ```bash
 php artisan vendor:publish --tag="filament-2fa-migrations"
@@ -22,7 +23,21 @@ php artisan vendor:publish --tag="filament-2fa-config"
 php artisan vendor:publish --tag="filament-2fa-views"
 ```
 
-## Integrate With Filament Breezy My Profile Page
+3. Add `\Webbingbrasil\FilamentTwoFactor\TwoFactorAuthenticatable` trait to your user model.
+
+4. Update the `config/filament.php` to point to the Two Factor Login::class.
+
+```php
+"auth" => [
+    "guard" => env("FILAMENT_AUTH_GUARD", "web"),
+    "pages" => [
+        "login" =>
+            \Webbingbrasil\FilamentTwoFactor\Http\Livewire\Auth\Login::class,
+    ],
+],
+```
+
+## Integrate With Custom Profile Page
 
 This package has a component for two-factor setup that can be easily added to a profile page, like the one for [filament-breezy](https://github.com/jeffgreco13/filament-breezy).
 
@@ -53,6 +68,16 @@ Edit the file ``resources/views/vendor/filament-breezy/filament/pages/my-profile
     </div>
 </x-filament-breezy::grid-section>
 ```
+
+## Screenshots
+
+![Two Factor Page](./images/two-factor-page.jpeg)
+![Confirm Password](./images/confirm-password.jpeg)
+![Finishing enable](./images/finishing-enable.jpeg)
+![Recovery codes](./images/recovery-codes.jpeg)
+![Enabled](./images/enabled.jpeg)
+![Challenge](./images/challenge.jpeg)
+![Breezy](./images/breezy.png)
 
 ## Credits
 
