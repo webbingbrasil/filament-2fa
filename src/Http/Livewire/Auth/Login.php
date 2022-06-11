@@ -7,6 +7,7 @@ use Filament\Facades\Filament;
 use Filament\Forms\ComponentContainer;
 use Filament\Http\Livewire\Auth\Login as FilamentLogin;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse as FilamentLoginResponse;
+use Illuminate\Auth\Events\Failed;
 use Webbingbrasil\FilamentTwoFactor\FilamentTwoFactor;
 use Webbingbrasil\FilamentTwoFactor\Http\Responses\Auth\LoginResponse as TwoFactorLoginResponse;
 
@@ -15,51 +16,56 @@ use Webbingbrasil\FilamentTwoFactor\Http\Responses\Auth\LoginResponse as TwoFact
  */
 class Login extends FilamentLogin
 {
+    protected $user;
+
     public function authenticate(): ?FilamentLoginResponse
     {
-        try {
-            $this->rateLimit(5);
-        } catch (TooManyRequestsException $exception) {
-            $this->addError('email', __('filament::login.messages.throttled', [
-                'seconds' => $exception->secondsUntilAvailable,
-                'minutes' => ceil($exception->secondsUntilAvailable / 60),
-            ]));
+        $this->doRateLimit();
 
+        $data = $this->form->getState();
+
+        $model = Filament::auth()->getProvider()->getModel();
+        $this->user = $model::where('email', $data['email'])->first();
+
+        if ( ! $this->validateCredentials($data)) {
             return null;
         }
 
-        $data = $this->form->getState();
-        $user = $this->validateCredentials($data);
-
-        if (app(FilamentTwoFactor::class)->hasTwoFactorEnabled($user)) {
+        if (app(FilamentTwoFactor::class)->hasTwoFactorEnabled($this->user)) {
             request()->session()->put([
-                'login.id' => $user->getKey(),
+                'login.id' => $this->user->getKey(),
                 'login.remember' => $data['remember'],
             ]);
 
             return app(TwoFactorLoginResponse::class);
         }
 
-        if (! Filament::auth()->attempt([
-            'email' => $data['email'],
-            'password' => $data['password'],
-        ], $data['remember'])) {
-            $this->addError('email', __('filament::login.messages.failed'));
-
-            return null;
-        }
+        Filament::auth()->login($this->user, $data['remember']);
 
         return app(FilamentLoginResponse::class);
     }
 
-    protected function validateCredentials($data)
+    public function doRateLimit()
     {
-        $model = Filament::auth()->getProvider()->getModel();
+        try {
+            $this->rateLimit(5);
+        } catch (TooManyRequestsException $exception) {
+            $this->addError($this->fieldType, __('filament::login.messages.throttled', [
+                'seconds' => $exception->secondsUntilAvailable,
+                'minutes' => ceil($exception->secondsUntilAvailable / 60),
+            ]));
 
-        return tap($model::where('email', $data['email'])->first(), function ($user) use ($data) {
-            if (! $user || ! Filament::auth()->getProvider()->validateCredentials($user, ['password' => $data['password']])) {
-                $this->addError('email', __('filament::login.messages.failed'));
-            }
-        });
+            return null;
+        }
+    }
+
+    protected function validateCredentials(array $data) : bool
+    {
+        if (! $this->user || ! Filament::auth()->getProvider()->validateCredentials($this->user, ['password' => $data['password']])) {
+            $this->addError('email', __('filament::login.messages.failed'));
+            return false;
+        }
+
+        return true;
     }
 }
