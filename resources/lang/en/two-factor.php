@@ -31,6 +31,7 @@ return [
         'confirm_password_instructions' => 'For your security, please confirm your password to continue.',
         'password_not_match' => 'This password does not match our records.',
         'invalid_code' => 'The provided two factor authentication code was invalid.',
+        'invalid_recovery_code' => 'The provided recovery code was invalid.',
         'confirm_access_with_authentication_code' => 'Please confirm access to your account by entering the authentication code provided by your authenticator application.',
         'confirm_access_with_recovery_code' => 'Please confirm access to your account by entering one of your emergency recovery codes.',
         'information' => 'When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.',

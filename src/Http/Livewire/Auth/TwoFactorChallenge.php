@@ -115,7 +115,10 @@ class TwoFactorChallenge extends Component implements Forms\Contracts\HasForms
         ), function ($result) {
             if ($result) {
                 request()->session()->forget('login.id');
+                return;
             }
+
+            $this->addError('code', __('filament-2fa::two-factor.message.invalid_code'));
         });
     }
 
@@ -135,7 +138,10 @@ class TwoFactorChallenge extends Component implements Forms\Contracts\HasForms
         }), function ($code) {
             if ($code) {
                 request()->session()->forget('login.id');
+                return;
             }
+
+            $this->addError('recovery_code', __('filament-2fa::two-factor.message.invalid_recovery_code'));
         });
     }
 
@@ -161,8 +167,6 @@ class TwoFactorChallenge extends Component implements Forms\Contracts\HasForms
         if ($code = $this->validRecoveryCode()) {
             $user->replaceRecoveryCode($code);
         } elseif (! $this->hasValidCode()) {
-            $this->addError('code', __('filament-2fa::two-factor.message.invalid_code'));
-
             return null;
         }
 

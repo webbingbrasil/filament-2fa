@@ -38,9 +38,7 @@ class FilamentTwoFactor
 
     public function hasTwoFactorEnabled($user)
     {
-        return optional($user)->two_factor_secret &&
-            ! is_null(optional($user)->two_factor_confirmed_at) &&
-            in_array(TwoFactorAuthenticatable::class, class_uses_recursive($user));
+        return optional($user)->hasEnabledTwoFactorAuthentication();
     }
 
     public function generateRecoveryCode()
