@@ -10,6 +10,6 @@ class LoginResponse implements Responsable
 {
     public function toResponse($request): RedirectResponse | Redirector
     {
-        return redirect()->route('two-factor.login');
+        return redirect()->route('filament-2fa.login');
     }
 }

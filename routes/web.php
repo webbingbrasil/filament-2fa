@@ -7,5 +7,5 @@ Route::domain(config('filament.domain'))
     ->prefix(config('filament.path'))
     ->group(function () {
         Route::get('/two-factor-challenge', config('filament-2fa.two_factor_challenge_component_path'))
-            ->name('two-factor.login');
+            ->name('filament-2fa.login');
     });
