@@ -39,7 +39,7 @@ php artisan vendor:publish --tag="filament-2fa-views"
 
 ## Integrate With Custom Profile Page
 
-This package has a component for two-factor setup that can be easily added to a profile page, like the one for [filament-jetstream-theme](webbingbrasil/filament-jetstream-theme).
+This package has a component for two-factor setup that can be easily added to a profile page, like the one for [filament-jetstream-theme](https://github.com/webbingbrasil/filament-jetstream-theme).
 
 Create a view with the `<livewire:filament-two-factor-form>` component like the example below:
 
