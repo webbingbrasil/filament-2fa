@@ -39,20 +39,15 @@ php artisan vendor:publish --tag="filament-2fa-views"
 
 ## Integrate With Custom Profile Page
 
-This package has a component for two-factor setup that can be easily added to a profile page, like the one for [filament-breezy](https://github.com/jeffgreco13/filament-breezy).
+This package has a component for two-factor setup that can be easily added to a profile page, like the one for [filament-jetstream-theme](webbingbrasil/filament-jetstream-theme).
 
-First, publish the [filament-breezy](https://github.com/jeffgreco13/filament-breezy) views:
-
-```bash
-php artisan vendor:publish --tag="filament-breezy-views"
-```
-
-Edit the file ``resources/views/vendor/filament-breezy/filament/pages/my-profile.blade.php`` to add a section with the `<livewire:filament-two-factor-form>` component:
+Create a view with the `<livewire:filament-two-factor-form>` component like the example below:
 
 ```php
+// resources/views/partials/2fa-section.blade.php
 <hr />
 
-<x-filament-breezy::grid-section class="mt-8">
+<x-filament-jetstream::grid-section class="mt-8">
     <x-slot name="title">
         {{ __('filament-2fa::two-factor.title') }}
     </x-slot>
@@ -66,7 +61,20 @@ Edit the file ``resources/views/vendor/filament-breezy/filament/pages/my-profile
             <livewire:filament-two-factor-form>
         </x-filament::card>
     </div>
-</x-filament-breezy::grid-section>
+</x-filament-jetstream::grid-section>
+```
+
+Then add the view to your profile page using render hook:
+
+```php
+## in Service Provider file
+public function boot()
+{
+    Filament::registerRenderHook(
+        'filament-jetstream.profile-page.end',
+        fn (): View => view('partials.2fa-section'),
+    );
+}
 ```
 
 ## Screenshots
