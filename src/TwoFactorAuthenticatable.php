@@ -16,7 +16,7 @@ trait TwoFactorAuthenticatable
      *
      * @return bool
      */
-    public function hasEnabledFilamentTwoFactorAuthentication()
+    public function hasEnabledTwoFactorAuthentication()
     {
         return ! is_null($this->two_factor_secret) &&
             ! is_null($this->two_factor_confirmed_at);
