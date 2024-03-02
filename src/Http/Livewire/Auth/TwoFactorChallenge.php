@@ -99,7 +99,7 @@ class TwoFactorChallenge extends Component implements Forms\Contracts\HasForms
             $this->redirectRoute('filament.auth.login');
         }
 
-        return $this->challengedUser = $user;
+        return $this->challengedUser = $user ?? null;
     }
 
     /**
